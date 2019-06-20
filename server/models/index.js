@@ -10,8 +10,13 @@ module.exports = {
     }, 
     // a function which produces all the messages
     post: function (data, callback) {
+      /*
+      msg = 'text'
+      
+      */
       console.log('this should be just hi:', data.msg);
-      db.query(`INSERT INTO messages (msg, user, room) values ("${data.msg}", 1, 1)`)
+    
+      db.query(`INSERT INTO messages (msg, user, room) values ("${data.msg}", ${data.room}, ${data.user})`)
       callback();
 
     } // a function which can be used to insert a message into the database
