@@ -6,11 +6,11 @@ var MessageView = {
       -->
       <div class="chat">
         <div
-          class="username <%= Friends.isFriend(username) ? 'friend' : '' %>"
-          data-username="<%- username %>">
-          <%- username %>
+          class="user <%= Friends.isFriend(user) ? 'friend' : '' %>"
+          data-user="<%- user %>">
+          <%- user %>
         </div>
-        <div><%- text %></div>
+        <div><%- msg %></div>
       </div>
       <!--
             -->

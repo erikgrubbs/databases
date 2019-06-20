@@ -10,13 +10,9 @@ module.exports = {
     }, 
     // a function which produces all the messages
     post: function (data, callback) {
-      /*
-      msg = 'text'
-      
-      */
-      console.log('this should be just hi:', data.msg);
-    
-      db.query(`INSERT INTO messages (msg, user, room) values ("${data.msg}", ${data.room}, ${data.user})`)
+      db.query(`select id from users where user = "${data.user}"`, (error, userId) => {
+        db.query(`INSERT INTO messages (msg, room, user) values ("${data.msg}", "${data.room}", "${userId[0].id}")`)
+      });    
       callback();
 
     } // a function which can be used to insert a message into the database
@@ -24,11 +20,15 @@ module.exports = {
 
   users: {
     // Ditto as above.
-    get: function () {
-
+    get: function (callback) {
+      db.query('SELECT * from USERS', (err, users) => {
+        callback(null, users)
+      });
     },
-    post: function () {
-
+    post: function (data, callback) {
+      console.log(data);
+      db.query(`insert into users (user) values ("${data.user}")`);
+    callback();
     }
   }
 };

@@ -4,10 +4,9 @@ var models = require('../models');
 module.exports = {
   messages: {
     get: function (req, res) {
-      console.log('hello')
       models.messages.get( (err, data) => {
         if (err) {
-          console.log('hit error');
+          console.log('hit error getting messages');
         }
         res.send(data);
         });
@@ -28,10 +27,23 @@ module.exports = {
   users: {
     // Ditto as above
     get: function (req, res) {
-
+      models.users.get((err, data) => {
+        if (err) {
+          console.log('hit error getting users');
+        }
+        console.log(data);
+        res.send(data);
+      });
     },
-    post: function (req, res) {
 
+    post: function (req, res) {
+      console.log('this is req.body: ', req.body);
+      models.users.post(req.body, (err) => {
+        if (err) {
+          console.log('error posting user');
+        }
+        res.send('user post success');
+      })
     }
   }
 };

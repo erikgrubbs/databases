@@ -12,7 +12,7 @@ var MessagesView = {
     MessagesView.$chats.html('');
     Messages
       .items()
-      .filter(message => Rooms.isSelected(message.roomname))
+      .filter(message => Rooms.isSelected(message.room))
       .each(message => MessagesView.renderMessage(message));
   },
 
@@ -23,8 +23,8 @@ var MessagesView = {
 
   handleClick: function(event) {
     // Get username from data attribute
-    var username = $(event.target).data('username');
-    if (username === undefined) { return; }
+    var user = $(event.target).data('user');
+    if (user === undefined) { return; }
 
     Friends.toggleStatus(username, MessagesView.render);
       }

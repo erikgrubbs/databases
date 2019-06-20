@@ -6,7 +6,10 @@ var App = {
 
   initialize: function() {
     App.username = window.location.search.substr(10);
-
+    var user = {
+      user: App.username
+    };
+    Parse.addUser(user);
     FormView.initialize();
     RoomsView.initialize();
     MessagesView.initialize();
@@ -17,20 +20,27 @@ var App = {
 
 
     // Poll for new messages every 3 sec
-    setInterval(App.fetch, 3000);
+    // setInterval(App.fetch, 3000);
       },
 
   fetch: function(callback = ()=>{}) {
-    Parse.readAll((data) => {
-      console.log('success?');
-      // Don't bother to update if we have no messages
-      if (!data.results || !data.results.length) { return; }
+    Parse.readUsers((users) => {
+      Parse.readAll((data) => {
+        // Don't bother to update if we have no messages
+        data.forEach((message) => {
+          var temp = message.user;
+          message.user = users[temp - 1].user;
+        })
+        console.log(data);
 
-      Rooms.update(data.results, RoomsView.render);
-      Messages.update(data.results, MessagesView.render);
-      
-      callback();
-    });
+        if (!data || !data.length) { return; }
+  
+        Rooms.update(data, RoomsView.render);
+        Messages.update(data, MessagesView.render);
+        
+        callback();
+      });
+    })
   },
 
   startSpinner: function() {
