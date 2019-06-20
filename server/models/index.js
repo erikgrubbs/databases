@@ -9,9 +9,10 @@ module.exports = {
       });
     }, 
     // a function which produces all the messages
-    post: function (callback) {
-      db.query()
-      
+    post: function (data, callback) {
+      console.log('this should be just hi:', data.msg);
+      db.query(`INSERT INTO messages (msg, user, room) values ("${data.msg}", 1, 1)`)
+      callback();
 
     } // a function which can be used to insert a message into the database
   },
